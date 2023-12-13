@@ -19,7 +19,7 @@ The following are the steps I took to get the prototype up and running, where `R
 2. Assemble the Grove Base HAT onto the Raspberry Pi, securing with the M3 screws provided. This provides an ADC for the GSR sensor.
 3. Assemble the sensor by plugging in the 2-pin grove cable end of the finger part into the mini circuit board 2-pin female connection. Use the other 4-wire grove cable provided - plug one end into the circuit board 4-pin female connection, and the other end into the A0 channel on the grove base HAT.
 4. Connect the HTU21D-F to the GPIO pins using male-female jumper:
-    * V~in~ on the sensor connects to 3.3V pin on the Pi
+    * V<sub>in</sub> on the sensor connects to 3.3V pin on the Pi
     * GND on the sensor connects to any GND pin on the Pi
     * SDA on the sensor connects to Pin 3/GPIO 2 (SDA) on the Pi
     * SCL on the sensor connects to Pin 5/GPIO 3 (SCL) on the Pi
