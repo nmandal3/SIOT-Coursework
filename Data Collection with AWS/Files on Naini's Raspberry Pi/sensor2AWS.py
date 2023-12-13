@@ -52,13 +52,13 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.tls_set(ca_certs='./rootCA.pem', certfile='./certificate.pem.crt', keyfile='./private.pem.key', tls_version=ssl.PROTOCOL_SSLv23)
 client.tls_insecure_set(True)
-client.connect("a28fr9cp3ewlnv-ats.iot.eu-north-1.amazonaws.com", 8883, 60)
+client.connect("ommitted for privacy.amazonaws.com", 8883, 60)
 
 def get_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def get_local_position():
-    ipinfo_token = '0553b27680ebc7'
+    ipinfo_token = 'ommitted for privacy'
     try:
         # Use IPinfo API to get geolocation based on IP
         response = requests.get(f'http://ipinfo.io?token={ipinfo_token}')
@@ -119,7 +119,7 @@ def get_weather(api_key, lat, lon):
 #duration = 60*60*1  # Duration in seconds (1 hour)
 interval = 60*4  # Sampling interval in seconds (4 mins)
 #samples = duration // interval
-api_key = "ef60b4aabf9fccab0f79353bc246e27d"
+api_key = "ommitted for privacy"
 
 sensor1 = GroveGSRSensor()  # GSR sensor on A0 channel
 sensor2 = HumidityTemperatureSensor()  # HTU21D sensor using I2C bus
