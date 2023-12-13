@@ -43,8 +43,6 @@ The following keys are required to retreive data for weather and location, and s
 * [OpenWeather API Key](http://openweathermap.org) - with the student plan, you can get their Developer Plan for free for Weather, which can allow calls for both API pollution and API weather data.
 * [IPinfo Token](https://ipinfo.io) - their Free plan is more than enough to collect data.
 
-## Running Python Scripts
-
 With the aforementioned steps,`/Data Collection on Local Storage/sensorAPI.py` file can be run. In order to run the `/Data Collection with AWS/Files on Naini's Raspberry Pi/sensor2AWS.py` file can only be run once your AWS is setup, where I have omitted personal connection files (certificates, public-private key pair) and line 55 in the `sensor2AWS.py` file for privacy.
 
 To setup AWS, including IoT Core, DynamoDB and Lambda Functions, I used the following tutorials to help me:
