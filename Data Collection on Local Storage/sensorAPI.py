@@ -97,7 +97,7 @@ def main():
     duration = 60*60*6  # Duration in seconds (6 hours)
     interval = 60*4  # Sampling interval in seconds (4 mins)
     samples = duration // interval
-    api_key = "ef60b4aabf9fccab0f79353bc246e27d"
+    api_key = "ommitted for privacy"
 
     sensor1 = GroveGSRSensor()  # GSR sensor on A0 channel
     sensor2 = HumidityTemperatureSensor()  # HTU21D sensor using I2C bus
