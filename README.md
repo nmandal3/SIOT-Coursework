@@ -76,3 +76,7 @@ In `/Data Analysis/Time-Lagged Cross Correlations`:
 ### Neural Network Predictions
 In `/Data Analysis/Neural Network Modelling`:
 * `neural_network_forcasting.m` trains and tests a neural network on one day's data as the training and testing dataset, and predicts GSR values for another day's data as the validation dataset. The days' datasets can be changed in lines 5 and 6.
+
+I didn't manage to finish predictions within the timeframe of the coursework. In addition, it was clear my data could have been more reliable, or at the least, I needed weeks or months of data to make any meaningful data analyses for the context I was studying. Nevertheless, the analyses made can be done again further down the project pipeline once more data is collected and prototype refined.
+
+I hope you enjoyed my README file!
