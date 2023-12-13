@@ -9,7 +9,7 @@ The prototype was setup with the following equipment (links to sourced equipment
 * [Micro SD Card](https://thepihut.com/products/noobs-preinstalled-sd-card)
 * [Colour-Coded GPIO Headers](https://thepihut.com/products/colour-coded-gpio-headers)
 * [Grove Base HAT for Raspberry Pi Zero](https://thepihut.com/products/grove-base-hat-for-raspberry-pi-zero)
-* [GSR Grove Sensor](https://thepihut.com/products/grove-gsr-sensor)
+* [Galvanic Skin Response (GSR) Grove Sensor](https://thepihut.com/products/grove-gsr-sensor)
 * [HTU21D-F Humidity and Temperature Sensor](https://thepihut.com/products/adafruit-htu21d-f-temperature-humidity-sensor-breakout-board-ada3515)
 * Portable power bank
 * Micro-USB cable
@@ -44,12 +44,32 @@ The following keys are required to retreive data for weather and location, and s
 * [IPinfo Token](https://ipinfo.io) - their Free plan is more than enough to collect data.
 
 ## Running Python Scripts
+
 With the aforementioned steps,`/Data Collection on Local Storage/sensorAPI.py` file can be run. In order to run the `/Data Collection with AWS/Files on Naini's Raspberry Pi/sensor2AWS.py` file can only be run once your AWS is setup, where I have omitted personal connection files (certificates, public-private key pair) and line 55 in the `sensor2AWS.py` file for privacy.
 
 To setup AWS, including IoT Core, DynamoDB and Lambda Functions, I used the following tutorials to help me:
 * [Send data from a Raspberry Pi to AWS IoT - Cumulus Cycles](https://youtu.be/XcqVgGXcp4M)
 * [Store data sent to AWS IoT in DynamoDB using Lambda - Cumulus Cycles](https://youtu.be/0RcVwTKSbSA)
 * [How to Automate Sending Text SMS Notification to Phone Number Using Amazon SNS and AWS Lambda](https://youtu.be/O40eB3K4rPQ)
+
+## How the SKINsense Physical Prototype Works
+The prototype was put in a belt bag for convenience as I went about my daily tasks. An image of this can be seen in `Wearable.png`.
+
+### Sensors:
+* **GSR Sensor**: Measures skin dryness levels, using finger gloves with electrodes to make contact with skin. The electrical resistance between electrodes decreases with increased skin moisture.
+* **HTU21D Sensor**: Measures temperature and humidity sensor and voltage output is a digital signal (therefore an ADC isn't required).
+* **IPinfo.io**: Used to call geolocation information about the IP address of the Raspberry Pi (to be replaced with a GPS module as I understand this is very inaccurate).
+* **OpenWeather API**: Used to call current weather data for temperature and humidity, and current pollution data for NO<sub>2</sub>, SO<sub>2</sub>, PM10 and PM2.5, all using the geolocation from the previous point.
+
+### Data Collection Process:
+* I SSH into my Raspberry Pi from my iPhone using a Terminal app, then run the python script in background to make sure the script keeps running even if I lose internet connection with my Pi:
+```
+naini@nainipi.local:~ nohup python3 sensor2AWS.py &
+```
+* A datapoint is sampled with all variables received from the above sensors, attached with a timestamp.
+* Data is sampled once every 4 minutes:
+    * For the data collection stage, this was done for a 6 hour period (as the prototype is very bulky and intrusive to my daily tasks). After this period, all the collected data is stored in a CSV with the last timestamp.
+    * For current data processing, this is in a forever loop, and data gets sent to DynamoDB via publishing to the IoT Core topic `nainirpi/data`, as explained in my report.
 
 ## Data Analysis
 I used the script `/Data Collection on Local Storage/sensorAPI.py` to retrieve data, as I had only setup my AWS after data collection. The files in `/Raw Data Files` are the result of 6 hour period sampling for each of the 5 days I used the prototype.
@@ -77,6 +97,6 @@ In `/Data Analysis/Time-Lagged Cross Correlations`:
 In `/Data Analysis/Neural Network Modelling`:
 * `neural_network_forcasting.m` trains and tests a neural network on one day's data as the training and testing dataset, and predicts GSR values for another day's data as the validation dataset. The days' datasets can be changed in lines 5 and 6.
 
-I didn't manage to finish predictions within the timeframe of the coursework. In addition, it was clear my data could have been more reliable, or at the least, I needed weeks or months of data to make any meaningful data analyses for the context I was studying. Nevertheless, the analyses made can be done again further down the project pipeline once more data is collected and prototype refined.
+I didn't manage to finish predictions within the timeframe of the coursework. In addition, it was clear my data could have been more reliable, or at the least, I needed weeks or months of data to make any meaningful data analyses for the context I was studying. Nevertheless, the analyses made can be done again further down the SKINsense project pipeline once more data is collected and prototype refined.
 
 I hope you enjoyed my README file!
