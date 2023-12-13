@@ -77,7 +77,7 @@ I used MATLAB R2021b to carry out data analysis, where I wanted to see the corre
 ### Basic Time-Series Data Analysis
 In `/Data Analysis/Basic Time-Series Data Analysis`, the `sensor_data_all_headings.csv` is a CSV file of manually stitched data of the five raw data files, and the following MATLAB codes were run for basic analysis:
 * `plots_unormalised.m` plots the raw data taken, with a plot for each variable, which can be seen in the `/Graphs Plotting Raw Data` folder.
-* `plots_overlaid_group` plots the normalised data with 3 graphs overlaying groups, which can be seen in the `Grapphs Plotting Overlaid Data`:
+* `plots_overlaid_group` plots the normalised data with 3 graphs overlaying groups, which can be seen in the `/Graphs Plotting Overlaid Data` folder:
     * Sensor temperature and humidity data with GSR
     * API temperature and humidity data with GSR
     * API pollution data with GSR
