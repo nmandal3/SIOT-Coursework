@@ -19,7 +19,7 @@ def lambda_handler(event, context):
     if gsr_value > gsr_threshold:
         # Send SMS using SNS
         sns_client = boto3.client('sns')
-        topic_arn = 'arn:aws:sns:eu-north-1:721415157087:SMSsend'
+        topic_arn = 'omitted for privacy:SMSsend'
         
         msg = "Your skin is beginning to look quite dry, why not moisturise?"
         sns_client.publish(TopicArn=topic_arn, Message=msg)
