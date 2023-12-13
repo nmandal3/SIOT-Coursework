@@ -30,6 +30,49 @@ The following are the steps I took to get the prototype up and running, where `R
 ```
 nmandal@Nainis-MBP ~ % ssh naini@nainipi.local
 ```
+## Preparing to Run Python Scripts
 
 The following prerequisites are needed to run the Python Scripts:
-* 
+* Configure the Raspberry Pi to enable I2C interface - I used this [tutorial](https://uk.mathworks.com/help/supportpkg/raspberrypiio/ref/enablei2c.html) by MathWorks.
+* Install `raspi-blinka.py` on the Pi - I used this [tutorial](https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi) by Adafruit.
+* Install the Adafruit CircuitPython HTU21D library - I used this [tutorial](https://learn.adafruit.com/adafruit-htu21d-f-temperature-humidity-sensor/python-circuitpython) by Adafruit.
+* Install the Grove ADC library - I used this [tutorial](https://wiki.seeedstudio.com/Grove-GSR_Sensor/) by Seeed Studio.
+* Install the Paho MQTT library - I used this [tutoiral](https://bytebeam.io/blog/getting-started-with-mqtt-on-raspberry-pi-using-python/) by Bytebeam.
+
+The following keys are required to retreive data for weather and location, and should be put in lines 61 and 122 of the `/Data Collection with AWS/Files on Naini's Raspberry Pi/sensor2AWS.py` file or line 100 of the `/Data Collection on Local Storage/sensorAPI.py` file:
+* [OpenWeather API Key](http://openweathermap.org) - with the student plan, you can get their Developer Plan for free for Weather, which can allow calls for both API pollution and API weather data.
+* [IPinfo Token](https://ipinfo.io) - their Free plan is more than enough to collect data.
+
+## Running Python Scripts
+With the aforementioned steps,`/Data Collection on Local Storage/sensorAPI.py` file can be run. In order to run the `/Data Collection with AWS/Files on Naini's Raspberry Pi/sensor2AWS.py` file can only be run once your AWS is setup, where I have omitted personal connection files (certificates, public-private key pair) and line 55 in the `sensor2AWS.py` file for privacy.
+
+To setup AWS, including IoT Core, DynamoDB and Lambda Functions, I used the following tutorials to help me:
+* [Send data from a Raspberry Pi to AWS IoT - Cumulus Cycles](https://youtu.be/XcqVgGXcp4M)
+* [Store data sent to AWS IoT in DynamoDB using Lambda - Cumulus Cycles](https://youtu.be/0RcVwTKSbSA)
+* [How to Automate Sending Text SMS Notification to Phone Number Using Amazon SNS and AWS Lambda](https://youtu.be/O40eB3K4rPQ)
+
+## Data Analysis
+I used the script `/Data Collection on Local Storage/sensorAPI.py` to retrieve data, as I had only setup my AWS after data collection. The files in `/Raw Data Files` are the result of 6 hour period sampling for each of the 5 days I used the prototype.
+
+I used MATLAB R2021b to carry out data analysis, where I wanted to see the correlation between the environmental variables and GSR sensor data, as well as see if I could make a prediction.
+
+### Basic Time-Series Data Analysis
+In `/Data Analysis/Basic Time-Series Data Analysis`, the `sensor_data_all_headings.csv` is a CSV file of manually stitched data of the five raw data files, and the following MATLAB codes were run for basic analysis:
+* `plots_unormalised.m` plots the raw data taken, with a plot for each variable, which can be seen in the `/Graphs Plotting Raw Data` folder.
+* `plots_overlaid_group` plots the normalised data with 3 graphs overlaying groups, which can be seen in the `Grapphs Plotting Overlaid Data`:
+    * Sensor temperature and humidity data with GSR
+    * API temperature and humidity data with GSR
+    * API pollution data with GSR
+
+### Correlation Analysis
+In `/Data Analysis/Pearson Correlations without Lag`:
+* `pearson_correlations.m` calculates the Pearson Correlation Coefficients (PCC) between all environmental variables and GSR, where the day's CSV file to be inspected can be changed in line 5.
+* `PCC Values.png` shows a screenshot of the PCC results after entering each of the five day's data files, which are stored in the variable `resultArray`.
+
+In `/Data Analysis/Time-Lagged Cross Correlations`:
+* `time_lagged_correlation.m` evaluates the Time-Lagged Cross Correlation between all environmental variables and GSR, where again the day's CSV file can be changed in line 5.
+* `Time-lagged PCC Values.png` shows a screenshot of the peak PCC values at their respective time-lag after entering each of the five day's data files, which are stored in the variable `results`.
+
+### Neural Network Predictions
+In `/Data Analysis/Neural Network Modelling`:
+* `neural_network_forcasting.m` trains and tests a neural network on one day's data as the training and testing dataset, and predicts GSR values for another day's data as the validation dataset. The days' datasets can be changed in lines 5 and 6.
